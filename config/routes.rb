@@ -7,7 +7,12 @@ Rails.application.routes.draw do
   # get '/lists/new', to: 'lists#new'
   # get '/lists/:id', to: 'lists#show'
   # post '/lists', to: 'lists#create'
-  resources :lists, only: [:index, :show, :create, :new]
+  root to: 'lists#index'
 
+  resources :lists, only: [:show, :create, :new] do
+    resources :bookmarks, only: [:create]
+  end
+
+  resources :bookmarks, only: [:destroy]
 
 end

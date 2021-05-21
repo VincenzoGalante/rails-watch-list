@@ -1,4 +1,25 @@
 <h1>Lists#show</h1>
 <%= @list.name %>
 <p>
-<%= link_to "Back to list", lists_path %>
+
+<ul>
+  <% @list.movies.each do |movie| %>
+    <% bookmark = Bookmark.find_by(list: @list, movie: movie) %>
+      <li><%= movie.title %><%= " - " %><%= bookmark.comment %><%= " - " %>
+        <%= link_to "delete", bookmark_path(bookmark), method: :delete, data: { confirm: "Are you sure?"} %>
+    </li>
+  <% end %>
+</ul>
+<p>
+
+
+<%= simple_form_for [@list, @bookmark] do |f| %>
+  <%= f.input :comment %>
+  <%= f.association :movie %>
+  <%= f.submit :submit %>
+<% end %>
+<p>
+
+
+<%= link_to "Back to list", root_path %>
+
